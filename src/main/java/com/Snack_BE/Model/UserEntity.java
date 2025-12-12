@@ -33,17 +33,17 @@ public class UserEntity {
     @NotBlank
     @Size(max = 100)
     @Column(length = 100, nullable = false)
-    private String Name;
+    private String name;
 
     @NotBlank
     @Size(max = 150)
     @Column(length = 150, nullable = false, unique = true)
-    private String Email;
+    private String email;
 
     @NotBlank
     @Size(max = 255)
     @Column(length = 255, nullable = false)
-    private String Password;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

@@ -6,6 +6,8 @@ import com.Snack_BE.Model.ProductEntity;
 import com.Snack_BE.Service.ProductService;
 import com.Snack_BE.util.JwtUtil;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,26 +19,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+    private final JwtUtil jwtUtil;
 
-    ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    @PostMapping("/public/login")
-    public ResponseEntity<String> postMethodName(@RequestParam String username, @RequestParam String password) {
-        if ("admin".equals(username) && "123".equals(password)) {
-            System.out.println("The user " + username + "is login");
-            return ResponseEntity.ok(JwtUtil.generateToken(username));
-        } else {
-            System.out.println("This user do not have authorization");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("This user do not have authorization");
-        }
-    }
-
-    @GetMapping("/public/all")
+    @GetMapping("/all")
     public ResponseEntity<List<ProductEntity>> getALLEntity() {
         return productService.getallEntity();
     }
