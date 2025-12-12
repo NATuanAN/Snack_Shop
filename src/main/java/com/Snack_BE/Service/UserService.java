@@ -39,7 +39,7 @@ public class UserService {
 
         UserEntity userEntity = userRepo.findByEmail(email).get();
         if (password.equals(userEntity.getPassword())) {
-            String jwtTokeString = jwtUtil.generateToken(email);
+            String jwtTokeString = jwtUtil.generateToken(userEntity.getEmail(), userEntity.getAccounttype().toString());
             response.put("message", "Login Successfully");
             response.put("token", jwtTokeString);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);

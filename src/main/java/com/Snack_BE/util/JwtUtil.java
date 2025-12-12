@@ -1,37 +1,35 @@
 package com.Snack_BE.util;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.stereotype.Component;
-import javax.crypto.spec.SecretKeySpec;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import jakarta.annotation.PostConstruct;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secret}")
-    private String secret;
 
-    private Key key;
+    private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    @PostConstruct
-    public void init() {
-        this.key = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), 0,
-                secret.getBytes(StandardCharsets.UTF_8).length, "HmacSHA256");
-    }
-
-    public String generateToken(String email) {
-        return Jwts.builder().setSubject(email).setIssuedAt(new Date())
+    public String generateToken(String email, String role) {
+        return Jwts.builder().setSubject(email).claim("role", role).setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 3600)).signWith(key).compact();
     }
 
-    public String validateToken(String token) {
+    public Map<String, String> validateToken(String token) {
         try {
             Claims claim = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-            return claim.getSubject();
+            String email = claim.getSubject();
+            String role = claim.get("role", String.class);
+
+            Map<String, String> temp = new HashMap<>();
+            temp.put("email", email);
+            temp.put("role", role);
+            return temp;
         } catch (Exception e) {
             System.out.println(e);
             return null;
