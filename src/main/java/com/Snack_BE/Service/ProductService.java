@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 import com.Snack_BE.Model.ProductEntity;
 import com.Snack_BE.Repo.ProductRepo;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepo productRepo;
-
-    public ProductService(ProductRepo productRepo) {
-        this.productRepo = productRepo;
-    }
 
     public ResponseEntity<List<ProductEntity>> getallEntity() {
         return ResponseEntity.ok(productRepo.findAll());

@@ -1,4 +1,4 @@
-package com.Snack_BE.Service;
+package com.Snack_BE.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

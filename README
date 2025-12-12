@@ -1,2 +1,8 @@
-docker compose up -d
+Nhớ chạy docker để thêm cơ sở  dữ liệu trong postgres (18)
 
+// docker compose up -d
+
+Xong vào đây để check api 
+// http://localhost:8000/swagger-ui/index.html
+
+Phiên bản spring là 4.0 java  21 và postgres là 18
