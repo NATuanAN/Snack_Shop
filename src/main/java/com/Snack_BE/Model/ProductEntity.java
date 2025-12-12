@@ -7,7 +7,6 @@ import jakarta.validation.constraints.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 @Entity(name = "product")
 @NoArgsConstructor
@@ -17,20 +16,16 @@ import jakarta.persistence.ManyToOne;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long product_id;
+    private Long ProductID;
     @NotBlank
-    private String product_name;
-    private String description;
+    private String ProductName;
+    private String Description;
     @NotNull
     @Min(10000)
-    private BigDecimal price;
+    private BigDecimal Price;
     private String image_url;
     @Builder.Default
-    private int stock = 0;
-    @Builder.Default
-    private String status = "active";
-    // @ManyToOne
-    // private Category category;
+    private int StockQuantity = 0;
 
     // @ManyToOne
     // private Shop shop;

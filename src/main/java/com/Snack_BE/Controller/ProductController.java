@@ -11,10 +11,12 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
+@RequestMapping("/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -23,12 +25,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("login")
+    @PostMapping("/public/login")
     public ResponseEntity<String> postMethodName(@RequestParam String username, @RequestParam String password) {
         if ("admin".equals(username) && "123".equals(password)) {
+            System.out.println("The user " + username + "is login");
             return ResponseEntity.ok(JwtUtil.generateToken(username));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("null");
+            System.out.println("This user do not have authorization");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("This user do not have authorization");
         }
     }
 
