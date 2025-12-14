@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("public/product")
+@RequestMapping("product")
 @RequiredArgsConstructor
 public class ProductController {
 

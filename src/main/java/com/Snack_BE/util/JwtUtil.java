@@ -17,7 +17,9 @@ public class JwtUtil {
 
     public String generateToken(String email, String role) {
         return Jwts.builder().setSubject(email).claim("role", role).setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 3600)).signWith(key).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 *
+                        3600))
+                .signWith(key).compact();
     }
 
     public Map<String, String> validateToken(String token) {
@@ -35,4 +37,5 @@ public class JwtUtil {
             return null;
         }
     }
+
 }

@@ -1,7 +1,6 @@
 package com.Snack_BE.Model;
 
-import java.math.BigDecimal;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,16 +20,19 @@ import lombok.NoArgsConstructor;
 public class ShopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long shopid;
+    @Column(name = "shopid", nullable = false, unique = true)
+    private Long ShopID;
     @NotBlank
     @Size(max = 150)
-    private String shopname;
+    @Column(name = "shopname", nullable = false, unique = true)
+    private String ShopName;
     @Size(max = 250)
     @NotBlank
-    private String address;
-    private String description;
+    @Column(name = "address", nullable = true)
+    private String Address;
+    private String Description;
     @Size(max = 255)
     @NotBlank
-    private String logo;
+    private String Logo;
 
 }

@@ -91,7 +91,7 @@ VALUES
 -- ==========================================
 -- 4. Order
 -- ==========================================
-CREATE TABLE "Order" (
+CREATE TABLE order_table(
     OrderID SERIAL PRIMARY KEY,
     TotalAmount NUMERIC(12,2) NOT NULL,
     ShippingAddress VARCHAR(255) NOT NULL,
@@ -100,7 +100,9 @@ CREATE TABLE "Order" (
     BuyerID INT NOT NULL,
     FOREIGN KEY (BuyerID) REFERENCES users_table(UserID)
 );
-
+INSERT INTO order_table(TotalAmount,ShippingAddress,PaymentMethod,Status,BuyerID)
+VALUES
+(10,'130 Yen lang','VNPay','done',1);
 -- ==========================================
 -- 5. OrderItem (Composite PK)
 -- ==========================================
@@ -110,10 +112,14 @@ CREATE TABLE OrderItem (
     Quantity INT NOT NULL,
     UnitPrice NUMERIC(12,2) NOT NULL,
     PRIMARY KEY (OrderID, ProductID),
-    FOREIGN KEY (OrderID) REFERENCES "Order"(OrderID),
+    FOREIGN KEY (OrderID) REFERENCES order_table(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
+INSERT INTO OrderItem(OrderID,ProductID,Quantity,UnitPrice)
+VALUES
+(1,1,10,1200),
+(1,12,5,2400);
 -- ==========================================
 -- 6. Review
 -- ==========================================
@@ -123,7 +129,7 @@ CREATE TABLE Review (
     Rating INT CHECK (Rating BETWEEN 1 AND 5),
     DatePosted TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     OrderID INT NOT NULL,
-    FOREIGN KEY (OrderID) REFERENCES "Order"(OrderID)
+    FOREIGN KEY (OrderID) REFERENCES order_table(OrderID)
 );
 
 -- ==========================================
