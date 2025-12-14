@@ -131,7 +131,9 @@ CREATE TABLE Review (
     OrderID INT NOT NULL,
     FOREIGN KEY (OrderID) REFERENCES order_table(OrderID)
 );
-
+INSERT INTO Review(Content,Rating,OrderID)
+VALUES
+('The order is missed',1,1);
 -- ==========================================
 -- 7. Promotion
 -- ==========================================
