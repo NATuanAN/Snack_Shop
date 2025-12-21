@@ -34,14 +34,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String email = validateToken.get("email");
             String role = validateToken.get("role");
-
+            String name = validateToken.get("name");
             if (email != null && role != null) {
                 System.out.println("Email: " + email);
                 System.out.println("Role: " + role);
                 var authorities = Collections.singleton(
                         new SimpleGrantedAuthority("ROLE_" + role));
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null,
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email,
+                        name,
                         authorities);
                 SecurityContextHolder.getContext().setAuthentication(auth);
 

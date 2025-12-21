@@ -24,20 +24,25 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderid", nullable = false)
     private long OrderID;
+
     @NotEmpty
     @Column(name = "totalamount", nullable = false)
     private float TotalAmount;
+
     @NotBlank
     @Size(max = 255)
     @Column(name = "shippingaddress", nullable = false)
     private String ShippingAddress;
+
     @NotBlank
     @Size(max = 100)
     @Column(name = "paymentmethod", nullable = false)
     private String PaymentMethod;
+
     @NotBlank
     @Size(max = 50)
     private String Status;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "buyerid")

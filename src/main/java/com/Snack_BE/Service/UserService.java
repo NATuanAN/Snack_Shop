@@ -3,12 +3,17 @@ package com.Snack_BE.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.Snack_BE.DTOs.UserResponseDTO;
 import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Repo.UserRepo;
+import com.Snack_BE.config.SecurityConfig;
 import com.Snack_BE.config.UserMapper;
 import com.Snack_BE.util.JwtUtil;
 
@@ -20,6 +25,7 @@ public class UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<List<UserResponseDTO>> getAllUser() {
 
@@ -38,13 +44,33 @@ public class UserService {
         }
 
         UserEntity userEntity = userRepo.findByEmail(email).get();
-        if (password.equals(userEntity.getPassword())) {
-            String jwtTokeString = jwtUtil.generateToken(userEntity.getEmail(), userEntity.getAccounttype().toString());
+
+        if (passwordEncoder.matches(password, userEntity.getPassword())) {
+            String jwtTokeString = jwtUtil.generateToken(userEntity.getEmail(), userEntity.getAccounttype().toString(),
+                    password);
             response.put("message", "Login Successfully");
             response.put("token", jwtTokeString);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         }
-        response.put("message", "The both email and password are required");
+        response.put("message", "The email or password are wrong");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    public ResponseEntity<String> register(String email, String password, String name) {
+        UserEntity user = new UserEntity();
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setName(name);
+        userRepo.save(user);
+        return ResponseEntity.status(200).body("User is created successfully");
+    }
+
+    public ResponseEntity<String> delEntity(String name) {
+        Optional<UserEntity> userEntity = userRepo.findByName(name);
+        if (userEntity.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user " + name + " is not found");
+        }
+        userRepo.delete(userEntity.get());
+        return ResponseEntity.status(200).body("The user " + name + " is deleted");
     }
 }

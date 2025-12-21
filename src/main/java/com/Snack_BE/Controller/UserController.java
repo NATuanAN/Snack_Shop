@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-// @RequestMapping("/user")
+// @RequestMapping("/public")
 public class UserController {
     private final UserService userService;
 
@@ -20,8 +21,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("alluser")
-    @PreAuthorize("hasRole('Buyer')")
+    @GetMapping("user/alluser")
+    @PreAuthorize("hasRole('Buyer') or hasRole('Admin')")
     public ResponseEntity<List<UserResponseDTO>> getAllUserEntity() {
         return userService.getAllUser();
     }
@@ -29,6 +30,18 @@ public class UserController {
     @PostMapping("public/login")
     public ResponseEntity<Map<String, String>> login(@RequestParam String email, @RequestParam String password) {
         return userService.login(email, password);
+    }
+
+    @PostMapping("public/register")
+    public ResponseEntity<String> register(@RequestParam String email, @RequestParam String password,
+            @RequestParam String name) {
+        return userService.register(email, password, name);
+    }
+
+    @PostMapping("user/delete")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<String> delEntity(@RequestParam String name) {
+        return userService.delEntity(name);
     }
 
 }
