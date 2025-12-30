@@ -7,7 +7,6 @@ CREATE TABLE users_table (
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin'))
-    ADD CONSTRAINT uk_user_email UNIQUE(Email)
 );
 
 

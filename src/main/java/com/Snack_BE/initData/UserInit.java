@@ -1,4 +1,4 @@
-package com.Snack_BE.init;
+package com.Snack_BE.initData;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
