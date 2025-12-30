@@ -3,7 +3,7 @@ services:
     build: .
     container_name: spring_app
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
       - postgres
       - redis 
@@ -32,7 +32,7 @@ services:
     volumes:
       # - pgdata:/var/lib/postgresql/data
       - pgdata:/var/lib/postgresql
-      - ./init:/docker-entrypoint-initdb.d
+      - ./init:/init.sql
 
 volumes:
   pgdata:
