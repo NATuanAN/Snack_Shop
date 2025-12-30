@@ -3,22 +3,13 @@ services:
     build: .
     container_name: spring_app
     ports:
-      - "8001:8000"
+      - "8000:8000"
     depends_on:
       - postgres
-      - redis 
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/snack_website
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin123
-      SPRING_DATA_REDIS_HOST: redis
-      SPRING_DATA_REDIS_PORT: 6379
-  redis:
-    image: redis:latest
-    container_name: redis
-    restart: always
-    ports:
-      - "6379:6379"
   postgres:
     image: postgres:latest
     container_name: postgres-db
@@ -32,7 +23,7 @@ services:
     volumes:
       # - pgdata:/var/lib/postgresql/data
       - pgdata:/var/lib/postgresql
-      - ./init:/init.sql
+      - ./init:/docker-entrypoint-initdb.d
 
 volumes:
   pgdata:
