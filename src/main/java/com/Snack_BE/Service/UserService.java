@@ -4,16 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.Snack_BE.DTOs.UserResponseDTO;
 import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Repo.UserRepo;
-import com.Snack_BE.config.SecurityConfig;
 import com.Snack_BE.config.UserMapper;
 import com.Snack_BE.util.JwtUtil;
 
@@ -57,12 +54,15 @@ public class UserService {
     }
 
     public ResponseEntity<String> register(String email, String password, String name) {
+        if (userRepo.existsByEmail(email)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User have already existed");
+        }
         UserEntity user = new UserEntity();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
         userRepo.save(user);
-        return ResponseEntity.status(200).body("User is created successfully");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User is created successfully");
     }
 
     public ResponseEntity<String> delEntity(String name) {

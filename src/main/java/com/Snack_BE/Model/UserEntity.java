@@ -28,7 +28,8 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long UserID;
+    @Column(name = "userid")
+    private Long userID;
 
     @NotBlank
     @Size(max = 100)
@@ -48,4 +49,11 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private AccountType accounttype = AccountType.Buyer;
+
+    public UserEntity(String name, String email, String password, AccountType role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.accounttype = role;
+    }
 }

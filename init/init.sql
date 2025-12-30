@@ -7,12 +7,9 @@ CREATE TABLE users_table (
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin'))
+    ADD CONSTRAINT uk_user_email UNIQUE(Email)
 );
 
-INSERT INTO users_table(Name,Email,Password,AccountType)
-VALUES
-('TuanAmin','TuanAdmin@gmail.com','123','Admin'),
-('Tuanseller','TuanSseller@gmail.com','123','Seller');
 
 -- ==========================================
 -- 2. Shop
@@ -134,16 +131,18 @@ VALUES
 -- ==========================================
 CREATE TABLE order_table(
     OrderID SERIAL PRIMARY KEY,
-    TotalAmount NUMERIC(12,2) NOT NULL,
-    ShippingAddress VARCHAR(255) NOT NULL,
+    -- TotalAmount NUMERIC(12,2) NOT NULL,
+    ShippingAddress TEXT NOT NULL,
     PaymentMethod VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Status VARCHAR(50) NOT NULL,
     BuyerID INT NOT NULL,
     FOREIGN KEY (BuyerID) REFERENCES users_table(UserID)
 );
-INSERT INTO order_table(TotalAmount,ShippingAddress,PaymentMethod,Status,BuyerID)
+INSERT INTO order_table(ShippingAddress,PaymentMethod,Status,BuyerID)
 VALUES
-(10,'130 Yen lang','VNPay','done',1);
+('130 Yen lang','VNPay','done',1);
 -- ==========================================
 -- 5. OrderItem (Composite PK)
 -- ==========================================
