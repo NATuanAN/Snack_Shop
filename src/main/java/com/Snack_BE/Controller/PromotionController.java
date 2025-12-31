@@ -7,6 +7,7 @@ import com.Snack_BE.Service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -17,6 +18,7 @@ public class PromotionController {
     private final PromotionService promotionService;
 
     @GetMapping("all")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<List<PromotionEntity>> getAllPromotion() {
         return promotionService.getAllPromotion();
     }
