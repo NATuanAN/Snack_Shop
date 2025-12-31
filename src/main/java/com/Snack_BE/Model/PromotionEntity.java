@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "promotion")
 @NoArgsConstructor
@@ -16,7 +18,7 @@ import java.time.LocalDateTime;
 @Data
 public class PromotionEntity {
     public enum PromotionType {
-        SHOP, PRODUCT
+        Shop, Product
     }
 
     @Id
@@ -35,9 +37,11 @@ public class PromotionEntity {
     private BigDecimal value;
 
     @Column(name = "startat", nullable = false)
+    @CreationTimestamp
     private LocalDateTime startAt;
 
     @Column(name = "endat", nullable = false)
+    @UpdateTimestamp
     private LocalDateTime endAt;
 
     @ManyToOne

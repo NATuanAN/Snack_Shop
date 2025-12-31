@@ -9,6 +9,10 @@ CREATE TABLE users_table (
     AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin'))
 );
 
+INSERT INTO users_table(Name,Email,Password,AccountType)
+VALUES
+('TuanAmin','TuanAdmin@gmail.com','123','Admin'),
+('Tuanseller','TuanSseller@gmail.com','123','Seller');
 
 -- ==========================================
 -- 2. Shop
@@ -173,6 +177,7 @@ CREATE TABLE Review (
 INSERT INTO Review(Content,Rating,OrderID)
 VALUES
 ('The order is missed',1,1);
+
 -- ==========================================
 -- 7. Promotion
 -- ==========================================
@@ -181,13 +186,21 @@ CREATE TABLE Promotion (
     Name VARCHAR(150) NOT NULL,
     Type VARCHAR(10) NOT NULL CHECK (Type IN ('Shop', 'Product')),
     Value NUMERIC(12,2) NOT NULL,
-    StartAt TIMESTAMP NOT NULL,
-    EndAt TIMESTAMP NOT NULL,
+    StartAt TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
+    EndAt TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
     ShopID INT,
     ProductID INT,
     FOREIGN KEY (ShopID) REFERENCES Shop(ShopID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
+
+INSERT INTO Promotion(Name,Type,Value,ShopID)
+VALUES
+('Khuyến mãi cả shop','Product',0.2,1);
+INSERT INTO Promotion(Name,Type,Value,ProductID)
+VALUES
+('Khuyến mãi sản phẩm Snack vị sườn BBQ Lays 53g','Product',0.3,3);
+
 
 -- ==========================================
 -- 8. SystemReport
