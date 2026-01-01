@@ -15,6 +15,7 @@ public class SystemReportEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reportid")
     private Long reportId;
 
     private String title;

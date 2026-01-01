@@ -213,7 +213,9 @@ CREATE TABLE SystemReport (
     ReportedByUserID INT NOT NULL,
     FOREIGN KEY (ReportedByUserID) REFERENCES users_table(UserID)
 );
-
+INSERT INTO SystemReport(Title,Description,Status,ReportedByUserID)
+VALUES
+('Báo cáo lỗi hệ thống','Hệ thống như ** ****','không vui',2);
 -- ==========================================
 -- 9. Wishlist
 -- ==========================================

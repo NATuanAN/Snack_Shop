@@ -16,6 +16,6 @@ public class ShopService {
     private final ShopRepo shopRepo;
 
     public ResponseEntity<List<ShopEntity>> getAllShop() {
-        return ResponseEntity.status(201).body(shopRepo.findAll());
+        return ResponseEntity.status(200).body(shopRepo.findAll());
     }
 }

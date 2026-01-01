@@ -34,5 +34,4 @@ public class ShopEntity {
     @Size(max = 255)
     @NotBlank
     private String Logo;
-
 }

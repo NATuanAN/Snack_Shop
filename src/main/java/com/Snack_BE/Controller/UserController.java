@@ -37,10 +37,10 @@ public class UserController {
         return userService.register(email, password, name);
     }
 
-    @PostMapping("user/delete")
-    @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<String> delEntity(@RequestParam String name) {
-        return userService.delEntity(name);
-    }
+    // @PostMapping("user/delete")
+    // @PreAuthorize("hasRole('Admin')")
+    // public ResponseEntity<String> delEntity(@RequestParam String name) {
+    // return userService.delEntity(name);
+    // }
 
 }

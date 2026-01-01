@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class Wishlist {
+public class WishlistEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

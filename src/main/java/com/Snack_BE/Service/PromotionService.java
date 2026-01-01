@@ -13,6 +13,6 @@ public class PromotionService {
     private final PromotionRepo promotionRepo;
 
     public ResponseEntity<List<PromotionEntity>> getAllPromotion() {
-        return ResponseEntity.status(201).body(promotionRepo.findAll());
+        return ResponseEntity.status(200).body(promotionRepo.findAll());
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Snack_BE.DTOs.OrderResponseDTO;
 import com.Snack_BE.Model.OrderEntity;
 import com.Snack_BE.Service.OrderService;
 
@@ -19,7 +20,12 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<OrderEntity>> getAllOrder() {
+    public ResponseEntity<List<OrderResponseDTO>> getAllOrder() {
         return orderService.getAllOrder();
+    }
+
+    @GetMapping("/create-new-order")
+    public void createNewOrder() {
+
     }
 }

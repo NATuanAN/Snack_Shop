@@ -62,15 +62,16 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
         userRepo.save(user);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User is created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User is created successfully");
     }
 
-    public ResponseEntity<String> delEntity(String name) {
-        Optional<UserEntity> userEntity = userRepo.findByName(name);
-        if (userEntity.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user " + name + " is not found");
-        }
-        userRepo.delete(userEntity.get());
-        return ResponseEntity.status(200).body("The user " + name + " is deleted");
-    }
+    // public ResponseEntity<String> delEntity(String name) {
+    // Optional<UserEntity> userEntity = userRepo.findByName(name);
+    // if (userEntity.isEmpty()) {
+    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user " + name +
+    // " is not found");
+    // }
+    // userRepo.delete(userEntity.get());
+    // return ResponseEntity.status(200).body("The user " + name + " is deleted");
+    // }
 }

@@ -6,12 +6,12 @@ import com.Snack_BE.config.WishlistItemId;
 @Entity
 @Table(name = "wishlistitem")
 @IdClass(WishlistItemId.class)
-public class WishlistItem {
+public class WishlistItemEntity {
 
     @Id
     @ManyToOne
     @JoinColumn(name = "wishlistid")
-    private Wishlist wishlist;
+    private WishlistEntity wishlist;
 
     @Id
     @ManyToOne
