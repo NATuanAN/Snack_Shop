@@ -1,15 +1,11 @@
 package com.Snack_BE.initData;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Repo.UserRepo;
-
-import io.lettuce.core.event.command.CommandListener;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Component

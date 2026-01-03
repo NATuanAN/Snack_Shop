@@ -3,7 +3,6 @@ package com.Snack_BE.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,13 +64,4 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.CREATED).body("User is created successfully");
     }
 
-    // public ResponseEntity<String> delEntity(String name) {
-    // Optional<UserEntity> userEntity = userRepo.findByName(name);
-    // if (userEntity.isEmpty()) {
-    // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user " + name +
-    // " is not found");
-    // }
-    // userRepo.delete(userEntity.get());
-    // return ResponseEntity.status(200).body("The user " + name + " is deleted");
-    // }
 }
