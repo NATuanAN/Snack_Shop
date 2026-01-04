@@ -153,7 +153,7 @@ CREATE TABLE OrderItem (
     OrderID INT NOT NULL,
     ProductID INT NOT NULL,
     Quantity INT NOT NULL,
-    UnitPrice NUMERIC(12,2) NOT NULL,
+    UnitPrice NUMERIC(12,2),
     PRIMARY KEY (OrderID, ProductID),
     FOREIGN KEY (OrderID) REFERENCES order_table(OrderID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)

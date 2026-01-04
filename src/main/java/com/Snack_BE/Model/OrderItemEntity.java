@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class OrderItemEntity {
     @EmbeddedId
     private OrderItemID orderItemID;
+
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "orderid")
@@ -34,6 +35,6 @@ public class OrderItemEntity {
     @Column(nullable = false)
     private Integer Quantity;
 
-    @Column(name = "unitprice", nullable = false)
+    @Column(name = "unitprice")
     private BigDecimal UnitPrice;
 }

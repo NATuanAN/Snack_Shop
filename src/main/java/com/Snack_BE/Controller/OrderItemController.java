@@ -22,4 +22,5 @@ public class OrderItemController {
     public ResponseEntity<List<OrderItemEntity>> getAllOrderItem() {
         return orderItemService.getAllOrderItem();
     }
+
 }
