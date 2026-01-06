@@ -41,7 +41,8 @@ server:
 
 momo:
   endpoint: https://test-payment.momo.vn/v2/gateway/api/create
-  redirect-url: http://localhost:8080/public/api/payment/momo/return
-  ipn-url: http://localhost:8080/public/api/payment/momo/ipn
+  redirect-url: http://localhost:8000/public/api/payment/momo/return
+  ipn-url: http://localhost:8000/public/api/payment/momo/ipn
+  partner-code: ${PARTNER_CODE}
   access-key: ${MOMO_ACCESS_KEY}
   secret-key: ${MOMO_SECRET_KEY}

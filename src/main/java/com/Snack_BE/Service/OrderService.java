@@ -19,6 +19,8 @@ import com.Snack_BE.Model.OrderEntity;
 import com.Snack_BE.Model.OrderItemEntity;
 import com.Snack_BE.Model.ProductEntity;
 import com.Snack_BE.Model.UserEntity;
+import com.Snack_BE.Model.OrderEntity.OrderStatus;
+import com.Snack_BE.Model.OrderEntity.PaymentMethod;
 import com.Snack_BE.Repo.OrderItemRepo;
 import com.Snack_BE.Repo.OrderRepo;
 import com.Snack_BE.Repo.ProductRepo;
@@ -125,9 +127,9 @@ public class OrderService {
 
             OrderEntity orderEntity = new OrderEntity();
             orderEntity.setUserEntity(userEntity);
-            orderEntity.setPaymentMethod("Cod");
+            orderEntity.setPaymentMethod(PaymentMethod.MOMO);
             orderEntity.setShippingAddress(event.getShippingAddress());
-            orderEntity.setStatus("Ordered");
+            orderEntity.setStatus(OrderStatus.PAID);
             orderRepo.save(orderEntity);
 
             List<OrderItemEntity> listofOrderItem = new ArrayList<>();
@@ -138,14 +140,14 @@ public class OrderService {
                         .orElseThrow(() -> new IllegalArgumentException(
                                 "Product not found with ID: " + item.get("productid")));
 
-                orderItemEntity.setOrderItemID(new OrderItemID(orderEntity.getOderID(), productEntity.getProductID()));
+                orderItemEntity.setOrderItemID(new OrderItemID(orderEntity.getOrderID(), productEntity.getProductID()));
                 orderItemEntity.setOrder(orderEntity);
                 orderItemEntity.setProduct(productEntity);
                 orderItemEntity.setQuantity(Integer.valueOf(item.get("qty").toString()));
                 listofOrderItem.add(orderItemEntity);
             }
             orderItemRepo.saveAll(listofOrderItem);
-            System.out.println("Order created successfully with ID: " + orderEntity.getOderID());
+            System.out.println("Order created successfully with ID: " + orderEntity.getOrderID());
         } catch (Exception e) {
             System.err.println("Error processing Kafka message: " + e.getMessage());
             e.printStackTrace();

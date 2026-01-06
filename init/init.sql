@@ -135,16 +135,17 @@ CREATE TABLE order_table(
     OrderID SERIAL PRIMARY KEY,
     -- TotalAmount NUMERIC(12,2) NOT NULL,
     ShippingAddress TEXT NOT NULL,
-    PaymentMethod VARCHAR(100) NOT NULL,
+    PaymentMethod VARCHAR(100) NOT NULL CHECK (PaymentMethod in ('MOMO','VNPAY')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Status VARCHAR(50) NOT NULL,
+    Status VARCHAR(50) NOT NULL CHECK (Status in ('ORDERED','PAYMENT_PENDING','PAID','FAILED')),
     BuyerID INT NOT NULL,
     FOREIGN KEY (BuyerID) REFERENCES users_table(UserID)
 );
 INSERT INTO order_table(ShippingAddress,PaymentMethod,Status,BuyerID)
 VALUES
-('130 Yen lang','VNPay','done',1);
+('130 Yen lang','VNPAY','PAID',1),
+('36 Di An','MOMO','ORDERED',1);
 -- ==========================================
 -- 5. OrderItem (Composite PK)
 -- ==========================================
