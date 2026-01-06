@@ -98,7 +98,6 @@ public class OrderService {
         }
 
         OrderCreateRequest orderCreateTemp = new OrderCreateRequest(items, userId, shippingAddress);
-        // kafkaTemplate.send("ORDER_CREATED", orderCreateTemp);
         CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send("ORDER_CREATED", orderCreateTemp);
 
         future.whenComplete((result, ex) -> {
@@ -108,8 +107,6 @@ public class OrderService {
                 System.out.println("Sent message successfully: " + orderCreateTemp);
             }
         });
-
-        System.out.println("send to kafka");
     }
 
     @Transactional
