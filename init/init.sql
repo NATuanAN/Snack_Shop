@@ -45,7 +45,6 @@ CREATE TABLE Product (
 
     FOREIGN KEY (ShopID) REFERENCES Shop(ShopID)
 );
-
 INSERT INTO product(ProductName,Price,image_url,StockQuantity,ShopID)
 VALUES
 ('Snack vị bò nướng Texas Lays 53g', 12000, 'https://cdnv2.tgdd.vn/bhx-static/bhx/Products/Images/3364/226184/bhx/snack-khoai-tay-vi-than-bo-nuong-texas-lays-wavy-goi-56g_202508211052036366.jpg',8,1),
