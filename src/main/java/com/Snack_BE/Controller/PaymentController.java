@@ -22,6 +22,7 @@ public class PaymentController {
     @PostMapping("/momo/ipn")
     public ResponseEntity<?> momoIPN(@RequestBody Map<String, Object> payload) {
         paymentService.handleIPN(payload);
+        System.out.println("This is ipn");
         return ResponseEntity.ok().build();
     }
 

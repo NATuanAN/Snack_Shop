@@ -1,4 +1,4 @@
-package com.Snack_BE.initData;
+package com.Snack_BE.Data;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;

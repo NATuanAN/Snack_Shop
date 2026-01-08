@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("public/register")
-    public ResponseEntity<String> register(@RequestParam String email, @RequestParam String password,
+    public ResponseEntity<Map<String, String>> register(@RequestParam String email, @RequestParam String password,
             @RequestParam String name) {
         return userService.register(email, password, name);
     }

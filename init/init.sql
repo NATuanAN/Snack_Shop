@@ -145,6 +145,7 @@ CREATE TABLE order_table(
 INSERT INTO order_table(ShippingAddress,PaymentMethod,Status,BuyerID)
 VALUES
 ('130 Yen lang','VNPAY','PAID',1),
+('36 Di An','MOMO','ORDERED',1),
 ('36 Di An','MOMO','ORDERED',1);
 -- ==========================================
 -- 5. OrderItem (Composite PK)

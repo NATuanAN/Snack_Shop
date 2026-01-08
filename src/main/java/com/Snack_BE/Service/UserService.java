@@ -3,10 +3,14 @@ package com.Snack_BE.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.Snack_BE.DTOs.UserResponseDTO;
 import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Repo.UserRepo;
@@ -35,33 +39,54 @@ public class UserService {
         Map<String, String> response = new HashMap<>();
 
         if (email == null || password == null) {
-            response.put("message", "The both email and password are required");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            response.put("message", "Both email and password are required");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(response);
         }
 
-        UserEntity userEntity = userRepo.findByEmail(email).get();
+        Optional<UserEntity> optionalUser = userRepo.findByEmail(email);
 
-        if (passwordEncoder.matches(password, userEntity.getPassword())) {
-            String jwtTokeString = jwtUtil.generateToken(userEntity.getEmail(), userEntity.getAccounttype().toString(),
-                    password);
-            response.put("message", "Login Successfully");
-            response.put("token", jwtTokeString);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        if (optionalUser.isEmpty()) {
+            response.put("message", "Email is not valid");
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(response);
         }
-        response.put("message", "The email or password are wrong");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+        UserEntity userEntity = optionalUser.get();
+
+        if (!passwordEncoder.matches(password, userEntity.getPassword())) {
+            response.put("message", "The email or password are wrong");
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(response);
+        }
+
+        String jwtToken = jwtUtil.generateToken(
+                userEntity.getEmail(),
+                userEntity.getAccounttype().toString(),
+                password);
+
+        response.put("message", "Login Successfully");
+        response.put("token", jwtToken);
+
+        return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<String> register(String email, String password, String name) {
+    public ResponseEntity<Map<String, String>> register(String email, String password, String name) {
+        Map<String, String> response = new HashMap<>();
         if (userRepo.existsByEmail(email)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User have already existed");
+            response.put("message", "User have already existed");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
         UserEntity user = new UserEntity();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
         userRepo.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User is created successfully");
+        response.put("message", "User is created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
