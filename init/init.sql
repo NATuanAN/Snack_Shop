@@ -132,8 +132,7 @@ VALUES
 -- 4. Order
 -- ==========================================
 CREATE TABLE order_table(
-    OrderID SERIAL PRIMARY KEY,
-    -- TotalAmount NUMERIC(12,2) NOT NULL,
+    OrderID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     ShippingAddress TEXT NOT NULL,
     PaymentMethod VARCHAR(100) NOT NULL CHECK (PaymentMethod in ('MOMO','VNPAY')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -151,7 +150,7 @@ VALUES
 -- 5. OrderItem (Composite PK)
 -- ==========================================
 CREATE TABLE OrderItem (
-    OrderID INT NOT NULL,
+    OrderID UUID NOT NULL,
     ProductID INT NOT NULL,
     Quantity INT NOT NULL,
     UnitPrice NUMERIC(12,2),
@@ -160,10 +159,6 @@ CREATE TABLE OrderItem (
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
-INSERT INTO OrderItem(OrderID,ProductID,Quantity,UnitPrice)
-VALUES
-(1,1,10,1200),
-(1,12,5,2400);
 -- ==========================================
 -- 6. Review
 -- ==========================================
@@ -172,12 +167,9 @@ CREATE TABLE Review (
     Content TEXT,
     Rating INT CHECK (Rating BETWEEN 1 AND 5),
     DatePosted TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    OrderID INT NOT NULL,
+    OrderID UUID NOT NULL,
     FOREIGN KEY (OrderID) REFERENCES order_table(OrderID)
 );
-INSERT INTO Review(Content,Rating,OrderID)
-VALUES
-('The order is missed',1,1);
 
 -- ==========================================
 -- 7. Promotion
@@ -236,7 +228,3 @@ CREATE TABLE WishlistItem (
     FOREIGN KEY (WishlistID) REFERENCES Wishlist(WishlistID),
     FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
-
-
-
-

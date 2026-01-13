@@ -29,19 +29,24 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
-            Map<String, String> validateToken = jwtUtil.validateToken(token);
+            Map<String, Object> validateToken = jwtUtil.validateToken(token);
 
-            String email = validateToken.get("email");
-            String role = validateToken.get("role");
+            String email = validateToken.get("email").toString();
+            String role = validateToken.get("role").toString();
+            Long userId = Long.valueOf(validateToken.get("userId").toString());
+
             if (email != null && role != null) {
                 System.out.println("Email: " + email);
                 System.out.println("Role: " + role);
+                System.out.println("UserId: " + userId);
                 var authorities = Collections.singleton(
                         new SimpleGrantedAuthority("ROLE_" + role));
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email,
                         null,
                         authorities);
+
+                auth.setDetails(userId);
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             } else {

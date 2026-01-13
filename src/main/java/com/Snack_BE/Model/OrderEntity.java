@@ -1,14 +1,18 @@
 package com.Snack_BE.Model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,9 +43,9 @@ public class OrderEntity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderid", nullable = false)
-    private Long orderID;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "orderid", nullable = false, columnDefinition = "UUID")
+    private UUID orderID;
 
     @Column(name = "shippingaddress", nullable = false, length = 255)
     private String shippingAddress;
@@ -62,7 +66,8 @@ public class OrderEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyerid", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private UserEntity userEntity;
 }

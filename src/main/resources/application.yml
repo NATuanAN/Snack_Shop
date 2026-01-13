@@ -41,8 +41,9 @@ server:
 
 momo:
   endpoint: https://test-payment.momo.vn/v2/gateway/api/create
-  redirect-url: https://68e006a35fb5.ngrok-free.app/public/api/payment/momo/return
-  ipn-url: https://68e006a35fb5.ngrok-free.app/public/api/payment/momo/ipn
+  # redirect-url: ${PUBLIC_LINK}/public/api/payment/momo/return
+  redirect-url: ${CLIENT_LINK}
+  ipn-url: ${PUBLIC_LINK}/public/api/payment/momo/ipn
   partner-code: ${PARTNER_CODE}
   access-key: ${MOMO_ACCESS_KEY}
   secret-key: ${MOMO_SECRET_KEY}

@@ -29,6 +29,10 @@ public class MoMoService implements PaymentService {
     @Override
     public Object createPayment(PaymentRequest req) {
         try {
+            if (req == null || req.getOrderId() == null || req.getAmount() == null) {
+                throw new IllegalArgumentException("PaymentRequest, OrderId, and Amount cannot be null");
+            }
+
             String requestId = String.valueOf(System.currentTimeMillis());
             String orderId = req.getOrderId().toString();
             String amount = req.getAmount().toString();
@@ -82,7 +86,7 @@ public class MoMoService implements PaymentService {
     public void handleIPN(Map<String, Object> payload) {
         Integer resultCode = (Integer) payload.get("resultCode");
         String orderId = payload.get("orderId").toString();
-        OrderEntity orderEntity = orderRepo.findById(Long.valueOf(orderId))
+        OrderEntity orderEntity = orderRepo.findById(java.util.UUID.fromString(orderId))
                 .orElseThrow(() -> new IllegalAccessError("Order " + orderId + " invalid IPN"));
 
         if (resultCode == 0) {

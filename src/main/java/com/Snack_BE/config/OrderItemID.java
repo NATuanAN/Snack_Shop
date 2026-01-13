@@ -1,6 +1,7 @@
 package com.Snack_BE.config;
 
 import java.io.Serializable;
+import java.util.UUID;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemID implements Serializable {
-    private long orderId;
+    private UUID orderId;
     private long productId;
 
     @Override

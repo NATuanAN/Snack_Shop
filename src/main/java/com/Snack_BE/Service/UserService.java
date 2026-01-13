@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import com.Snack_BE.DTOs.UserResponseDTO;
 import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Repo.UserRepo;
@@ -66,7 +64,7 @@ public class UserService {
         String jwtToken = jwtUtil.generateToken(
                 userEntity.getEmail(),
                 userEntity.getAccounttype().toString(),
-                password);
+                userEntity.getUserID());
 
         response.put("message", "Login Successfully");
         response.put("token", jwtToken);

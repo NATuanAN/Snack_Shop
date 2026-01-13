@@ -16,19 +16,22 @@ public class JwtUtil {
 
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String email, String role, String name) {
-        return Jwts.builder().setSubject(email).claim("role", role).setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 10000)).signWith(key).compact();
+    public String generateToken(String email, String role, Long userId) {
+        return Jwts.builder().setSubject(email).claim("role", role).claim("userId",
+                userId).setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 10000)).signWith(key).compact();
     }
 
-    public Map<String, String> validateToken(String token) {
+    public Map<String, Object> validateToken(String token) {
         try {
             Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
             String email = claims.getSubject();
             String role = claims.get("role", String.class);
-            Map<String, String> temp = new HashMap<>();
+            Long userId = claims.get("userId", Long.class);
+            Map<String, Object> temp = new HashMap<>();
             temp.put("email", email);
             temp.put("role", role);
+            temp.put("userId", userId);
             return temp;
         } catch (Exception e) {
             System.err.println(e);

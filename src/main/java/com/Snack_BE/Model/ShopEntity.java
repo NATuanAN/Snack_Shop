@@ -21,17 +21,17 @@ public class ShopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shopid", nullable = false, unique = true)
-    private Long ShopID;
+    private Long shopId;
     @NotBlank
     @Size(max = 150)
     @Column(name = "shopname", nullable = false, unique = true)
-    private String ShopName;
+    private String shopName;
     @Size(max = 250)
     @NotBlank
     @Column(name = "address", nullable = true)
-    private String Address;
-    private String Description;
+    private String address;
+    private String description;
     @Size(max = 255)
     @NotBlank
-    private String Logo;
+    private String logo;
 }

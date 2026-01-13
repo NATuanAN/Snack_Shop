@@ -14,6 +14,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.server.ResponseStatusException;
 import com.Snack_BE.DTOs.OrderCreateRequest;
+import com.Snack_BE.DTOs.OrderDTOtoKafka;
 import com.Snack_BE.DTOs.OrderResponseDTO;
 import com.Snack_BE.Model.OrderEntity;
 import com.Snack_BE.Model.OrderItemEntity;
@@ -51,7 +52,7 @@ public class OrderService {
         return ResponseEntity.ok(listOfOrder);
     }
 
-    public void createNewOrder(OrderCreateRequest request) {
+    public OrderEntity createNewOrder(OrderCreateRequest request) {
         if (request == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request cannot be empty");
         }
@@ -96,8 +97,17 @@ public class OrderService {
             }
 
         }
+        UserEntity userEntity = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "User not found with ID: " + userId));
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setUserEntity(userEntity);
+        orderEntity.setPaymentMethod(PaymentMethod.MOMO);
+        orderEntity.setShippingAddress(shippingAddress);
+        orderEntity.setStatus(OrderStatus.PAYMENT_PENDING);
+        orderRepo.save(orderEntity);
 
-        OrderCreateRequest orderCreateTemp = new OrderCreateRequest(items, userId, shippingAddress);
+        OrderDTOtoKafka orderCreateTemp = new OrderDTOtoKafka(items, orderEntity);
         CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send("ORDER_CREATED", orderCreateTemp);
 
         future.whenComplete((result, ex) -> {
@@ -107,28 +117,14 @@ public class OrderService {
                 System.out.println("Sent message successfully: " + orderCreateTemp);
             }
         });
+
+        return orderEntity;
     }
 
     @Transactional
     @KafkaListener(topics = "ORDER_CREATED", groupId = "snack-order-group")
-    public void handleCreateInDB(OrderCreateRequest event) {
+    public void handleCreateInDB(OrderDTOtoKafka event) {
         try {
-            System.out.println("Received kafka message");
-            System.out.println("User Id = " + event.getUserId());
-            System.out.println("Address = " + event.getShippingAddress());
-            System.out.println("Items = " + event.getItems());
-
-            UserEntity userEntity = userRepo.findById(event.getUserId())
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "User not found with ID: " + event.getUserId()));
-
-            OrderEntity orderEntity = new OrderEntity();
-            orderEntity.setUserEntity(userEntity);
-            orderEntity.setPaymentMethod(PaymentMethod.MOMO);
-            orderEntity.setShippingAddress(event.getShippingAddress());
-            orderEntity.setStatus(OrderStatus.PAID);
-            orderRepo.save(orderEntity);
-
             List<OrderItemEntity> listofOrderItem = new ArrayList<>();
             List<Map<String, Long>> items = event.getItems();
             for (Map<String, Long> item : items) {
@@ -137,14 +133,15 @@ public class OrderService {
                         .orElseThrow(() -> new IllegalArgumentException(
                                 "Product not found with ID: " + item.get("productid")));
 
-                orderItemEntity.setOrderItemID(new OrderItemID(orderEntity.getOrderID(), productEntity.getProductID()));
-                orderItemEntity.setOrder(orderEntity);
-                orderItemEntity.setProduct(productEntity);
+                orderItemEntity.setOrderItemID(
+                        new OrderItemID(event.getOrderEntity().getOrderID(), productEntity.getProductId()));
+                orderItemEntity.setOrderEntity(event.getOrderEntity());
+                orderItemEntity.setProductEntity(productEntity);
                 orderItemEntity.setQuantity(Integer.valueOf(item.get("qty").toString()));
                 listofOrderItem.add(orderItemEntity);
             }
             orderItemRepo.saveAll(listofOrderItem);
-            System.out.println("Order created successfully with ID: " + orderEntity.getOrderID());
+            System.out.println("Order created successfully with ID: " + event.getOrderEntity().getOrderID());
         } catch (Exception e) {
             System.err.println("Error processing Kafka message: " + e.getMessage());
             e.printStackTrace();
@@ -152,4 +149,10 @@ public class OrderService {
         }
     }
 
+    public ResponseEntity<?> getOrderbyUserId(Long userId) {
+        UserEntity userEntity = userRepo.getById(userId);
+        List<OrderEntity> listOfOrder = orderRepo.getByUserEntity(userEntity);
+        List<OrderResponseDTO> listOfDtos = listOfOrder.stream().map(orderMapper::toDTO).toList();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(listOfDtos);
+    }
 }
