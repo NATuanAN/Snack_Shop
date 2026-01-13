@@ -1,4 +1,15 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: "http://localhost:8000/login/oauth2/code/{registrationId}"
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
   kafka:
     bootstrap-servers: localhost:9092
 
@@ -36,8 +47,8 @@ spring:
 server:
   port: 8000
 
-# jwt:
-#   secret: my-super-secret-key-1234567890abcdef
+jwt:
+  secret: ${SECRET_KEY}
 
 momo:
   endpoint: https://test-payment.momo.vn/v2/gateway/api/create

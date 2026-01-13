@@ -74,6 +74,7 @@ public class UserService {
 
     public ResponseEntity<Map<String, String>> register(String email, String password, String name) {
         Map<String, String> response = new HashMap<>();
+
         if (userRepo.existsByEmail(email)) {
             response.put("message", "User have already existed");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
@@ -87,4 +88,9 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    public String registerOAuthUser(String email) {
+        UserEntity user = userRepo.findByEmail(email).orElseThrow();
+
+        return jwtUtil.generateToken(user.getEmail(), user.getAccounttype().toString(), user.getUserID());
+    }
 }
