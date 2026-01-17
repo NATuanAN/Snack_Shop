@@ -3,7 +3,6 @@ package com.Snack_BE.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.Snack_BE.DTOs.UserResponseDTO;
-import com.Snack_BE.Model.UserEntity;
 import com.Snack_BE.Service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,7 +55,6 @@ public class UserController {
             throws IOException {
         OAuth2User oAuth2User = authentication.getPrincipal();
         String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
         response.sendRedirect("http://localhost:5173/login/success?token=" + userService.registerOAuthUser(email));
     }
 

@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler
                                         u.setEmail(email);
                                         u.setAccounttype(AccountType.Buyer);
                                         u.setName("Name of user");
-                                        u.setPassword("TempPassword");
+                                        u.setPassword("Temp");
                                         return userRepository.save(u);
                                 });
 

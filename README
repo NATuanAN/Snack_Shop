@@ -5,4 +5,4 @@ docker compose down -v && docker compose up -d --build
 Xong vào đây để check api 
 // http://localhost:8000/swagger-ui/index.html
 
-Phiên bản spring là 4.0 java  21 và postgres là 18
+Phiên bản spring là 4.0 java  21 và postgres là 18x`

@@ -58,3 +58,4 @@ momo:
   partner-code: ${PARTNER_CODE}
   access-key: ${MOMO_ACCESS_KEY}
   secret-key: ${MOMO_SECRET_KEY}
+debug: true
