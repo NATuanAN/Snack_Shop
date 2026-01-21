@@ -1,22 +1,21 @@
 package com.Snack_BE.Controller;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.Snack_BE.DTOs.UserResponseDTO;
 import com.Snack_BE.Service.UserService;
-
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,25 +30,16 @@ public class UserController {
     }
 
     @PostMapping("public/login")
-    public ResponseEntity<Map<String, String>> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String,String> body){
+        String email=body.get("email");
+        String password =body.get("password");
         return userService.login(email, password);
     }
 
     @PostMapping("public/register")
-    public ResponseEntity<Map<String, String>> register(@RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String name) {
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(name);
-        return userService.register(email, password, name);
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String,String> body) {
+        return userService.register(body.get("email"), body.get("password"), body.get("name"),body.get("phone"),body.get("accountType"));
     }
-
-    // @PostMapping("user/delete")
-    // @PreAuthorize("hasRole('Admin')")
-    // public ResponseEntity<String> delEntity(@RequestParam String name) {
-    // return userService.delEntity(name);
-    // }
     @GetMapping("/login/oauth2/code/google")
     public void googleCallback(OAuth2AuthenticationToken authentication, HttpServletResponse response)
             throws IOException {
@@ -57,5 +47,19 @@ public class UserController {
         String email = oAuth2User.getAttribute("email");
         response.sendRedirect("http://localhost:5173/login/success?token=" + userService.registerOAuthUser(email));
     }
+    @GetMapping("/user")
+    public ResponseEntity<?> getUser(Authentication authentication) {
+        if (!authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Long userId =(Long) authentication.getDetails();
+        return  userService.getUser(userId);
+    }
 
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<?> getUser(@PathVariable Long userId) {
+        if(userId == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message","The user does not exist"));
+        return userService.getUser(userId);
+    }
 }

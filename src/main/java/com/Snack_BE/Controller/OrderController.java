@@ -31,7 +31,7 @@ public class OrderController {
     public ResponseEntity<?> createNewOrder(Authentication auth, @RequestBody OrderCreateRequest request) {
         Long userId = (Long) auth.getDetails();
         request.setUserId(userId);
-
+        System.out.println(request.getShippingAddress());
         OrderEntity orderEntity = orderService.createNewOrder(request);
         Map<String, Object> response = new HashMap<>();
         response.put("orderId", orderEntity.getOrderID());

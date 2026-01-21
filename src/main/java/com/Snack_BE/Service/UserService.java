@@ -33,6 +33,12 @@ public class UserService {
         return ResponseEntity.ok(listofDTO);
     }
 
+    public ResponseEntity<UserResponseDTO> getUser(Long userId)
+    {
+        UserEntity user = userRepo.findById(userId).orElseThrow();
+        return ResponseEntity.ok(userMapper.toDTO(user));
+    }
+
     public ResponseEntity<Map<String, String>> login(String email, String password) {
         Map<String, String> response = new HashMap<>();
 
@@ -72,7 +78,7 @@ public class UserService {
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<Map<String, String>> register(String email, String password, String name) {
+    public ResponseEntity<Map<String, String>> register(String email, String password, String name,String phoneNumber,String accountType) {
         Map<String, String> response = new HashMap<>();
 
         if (userRepo.existsByEmail(email)) {
@@ -83,6 +89,11 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setName(name);
+        user.setPhoneNumber(phoneNumber);
+        if (accountType.equals("Buyer"))
+            user.setAccounttype(UserEntity.AccountType.Buyer);
+        else
+            user.setAccounttype(UserEntity.AccountType.Seller);
         userRepo.save(user);
         response.put("message", "User is created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
@@ -17,15 +16,8 @@ public class UserResponseDTO {
         Seller,
         Admin
     }
-
-    @NotBlank
-    @Size(max = 100)
     private String name;
-
-    @NotBlank
-    @Size(max = 150)
     private String email;
-
-    @Builder.Default
+    private String phoneNumber;
     private AccountType accounttype = AccountType.Buyer;
 }

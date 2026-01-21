@@ -15,34 +15,24 @@ public class UserInit {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
-    // void init() {
-    // if (!userRepo.existsByEmail("admin@gmail.com")) {
-    // UserEntity user = new UserEntity("Admin", "admin@gmail.com",
-    // passwordEncoder.encode("123"),
-    // com.Snack_BE.Model.UserEntity.AccountType.Admin);
-    // userRepo.save(user);
-    // }
-    // }
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-        for (int i = 0; i < 5; i++) {
             try {
                 if (!userRepo.existsByEmail("admin@gmail.com")) {
                     UserEntity user = new UserEntity(
                             "Admin",
                             "admin@gmail.com",
                             passwordEncoder.encode("123"),
-                            UserEntity.AccountType.Admin);
+                            UserEntity.AccountType.Admin,
+                            "0908427830"
+                    );
                     userRepo.save(user);
                 }
-                break;
             } catch (Exception e) {
                 try {
-                    Thread.sleep(3000); // đợi DB tỉnh ngủ
+                    Thread.sleep(3000);
                 } catch (InterruptedException ignored) {
                 }
             }
         }
     }
-
-}

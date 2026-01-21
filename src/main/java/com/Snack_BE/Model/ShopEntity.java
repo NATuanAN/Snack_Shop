@@ -1,22 +1,19 @@
 package com.Snack_BE.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity(name = "shop")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class ShopEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +25,16 @@ public class ShopEntity {
     private String shopName;
     @Size(max = 250)
     @NotBlank
-    @Column(name = "address", nullable = true)
+    @Column(name = "address", nullable = false)
     private String address;
     private String description;
     @Size(max = 255)
     @NotBlank
     private String logo;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sellerid",nullable = false)
+    @JsonIgnore
+    private UserEntity user;
 }

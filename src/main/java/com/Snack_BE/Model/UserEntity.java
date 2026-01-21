@@ -46,14 +46,18 @@ public class UserEntity {
     @Column(length = 255, nullable = false)
     private String password;
 
+    @Column(name="phonenumber")
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private AccountType accounttype = AccountType.Buyer;
 
-    public UserEntity(String name, String email, String password, AccountType role) {
+    public UserEntity(String name, String email, String password, AccountType role,String phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.accounttype = role;
+        this.phoneNumber = phoneNumber;
     }
 }

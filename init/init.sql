@@ -6,6 +6,7 @@ CREATE TABLE users_table (
     Name VARCHAR(100) NOT NULL,
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
+    PhoneNumber VARCHAR(10),
     AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin'))
 );
 

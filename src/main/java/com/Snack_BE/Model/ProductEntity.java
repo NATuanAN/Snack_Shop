@@ -27,7 +27,7 @@ public class ProductEntity {
     @Column(name = "productid")
     private Long productId;
     @NotBlank
-    @Column(name = "productname")
+    @Column(name = "productname",unique = true)
     private String productName;
     private String description;
     @NotNull

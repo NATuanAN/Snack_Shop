@@ -61,6 +61,8 @@ public class OrderService {
         String shippingAddress = request.getShippingAddress();
         List<Map<String, Long>> items = request.getItems();
 
+
+
         if (userId == null || shippingAddress == null || items == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User ID, shipping address, and items must not be null");
