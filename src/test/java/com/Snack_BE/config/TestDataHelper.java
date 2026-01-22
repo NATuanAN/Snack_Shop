@@ -10,6 +10,8 @@ public class TestDataHelper {
     public static final String TEST_USER_EMAIL = "test@example.com";
     public static final String TEST_USER_PASSWORD = "Test123!@#";
     public static final String TEST_OAUTH_EMAIL = "oauth@gmail.com";
+    public static final String TEST_USER_PHONE_NUMBER = "0900000000";
+    public static final String TEST_USER_ACCOUNT_TYPE = "Buyer";
     
     // Test IDs
     public static final Long TEST_USER_ID = 1L;

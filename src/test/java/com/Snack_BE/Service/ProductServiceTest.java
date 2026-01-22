@@ -67,7 +67,7 @@ class ProductServiceTest {
         when(productRepo.findAllProductDTO()).thenReturn(expectedProducts);
 
         // Act
-        ResponseEntity<List<ProductDTO>> response = productService.getallEntity();
+        ResponseEntity<List<ProductDTO>> response = productService.getAllEntity();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -88,7 +88,7 @@ class ProductServiceTest {
         when(productRepo.findAllProductDTO()).thenReturn(emptyList);
 
         // Act
-        ResponseEntity<List<ProductDTO>> response = productService.getallEntity();
+        ResponseEntity<List<ProductDTO>> response = productService.getAllEntity();
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());

@@ -209,7 +209,13 @@ class UserServiceTest {
         when(passwordEncoder.encode(password)).thenReturn(encodedPassword);
 
         // Act
-        ResponseEntity<Map<String, String>> response = userService.register(email, password, name);
+        ResponseEntity<Map<String, String>> response = userService.register(
+                email,
+                password,
+                name,
+                TestDataHelper.TEST_USER_PHONE_NUMBER,
+                TestDataHelper.TEST_USER_ACCOUNT_TYPE
+        );
 
         // Assert
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -232,7 +238,13 @@ class UserServiceTest {
         when(userRepo.existsByEmail(email)).thenReturn(true);
 
         // Act
-        ResponseEntity<Map<String, String>> response = userService.register(email, password, name);
+        ResponseEntity<Map<String, String>> response = userService.register(
+                email,
+                password,
+                name,
+                TestDataHelper.TEST_USER_PHONE_NUMBER,
+                TestDataHelper.TEST_USER_ACCOUNT_TYPE
+        );
 
         // Assert
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
