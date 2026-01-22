@@ -7,7 +7,7 @@ CREATE TABLE users_table (
     Email VARCHAR(150) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(10),
-    AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin'))
+    AccountType VARCHAR(10) NOT NULL CHECK (AccountType IN ('Buyer', 'Seller', 'Admin')),
 );
 
 INSERT INTO users_table(Name,Email,Password,AccountType)

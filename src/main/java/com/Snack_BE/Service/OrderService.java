@@ -52,7 +52,7 @@ public class OrderService {
         return ResponseEntity.ok(listOfOrder);
     }
 
-    public OrderEntity createNewOrder(OrderCreateRequest request) {
+        public OrderEntity createNewOrder(OrderCreateRequest request) {
         if (request == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request cannot be empty");
         }

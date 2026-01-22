@@ -94,8 +94,13 @@ public class UserService {
             user.setAccounttype(UserEntity.AccountType.Buyer);
         else
             user.setAccounttype(UserEntity.AccountType.Seller);
+        String jwtToken = jwtUtil.generateToken(
+                user.getEmail(),
+                user.getAccounttype().toString(),
+                user.getUserID());
         userRepo.save(user);
         response.put("message", "User is created successfully");
+        response.put("token", jwtToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

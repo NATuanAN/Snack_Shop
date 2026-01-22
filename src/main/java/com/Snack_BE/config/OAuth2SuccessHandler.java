@@ -40,7 +40,7 @@ public class OAuth2SuccessHandler
                                         UserEntity u = new UserEntity();
                                         u.setEmail(email);
                                         u.setAccounttype(AccountType.Buyer);
-                                        u.setName("Name of user");
+                                        u.setName(email);
                                         u.setPassword("Temp");
                                         return userRepository.save(u);
                                 });
