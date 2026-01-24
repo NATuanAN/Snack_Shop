@@ -35,4 +35,6 @@ public class ProductController {
     public ResponseEntity<?> getByUser(Authentication authentication){
         return productService.getByUser((Long)authentication.getDetails());
     }
+
+
 }

@@ -16,8 +16,13 @@ public class UserResponseDTO {
         Seller,
         Admin
     }
+    public enum  Active
+    {
+        active,ban
+    }
     private String name;
     private String email;
     private String phoneNumber;
     private AccountType accounttype = AccountType.Buyer;
+    private Active active = Active.active;
 }

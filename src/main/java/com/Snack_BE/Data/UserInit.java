@@ -24,7 +24,8 @@ public class UserInit {
                             "admin@gmail.com",
                             passwordEncoder.encode("123"),
                             UserEntity.AccountType.Admin,
-                            "0908427830"
+                            "0908427830",
+                            UserEntity.Active.active
                     );
                     userRepo.save(user);
                 }

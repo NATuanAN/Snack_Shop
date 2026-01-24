@@ -26,6 +26,10 @@ public class UserEntity {
         Admin
     }
 
+    public enum  Active
+    {
+        active,ban
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
@@ -53,11 +57,15 @@ public class UserEntity {
     @Builder.Default
     private AccountType accounttype = AccountType.Buyer;
 
-    public UserEntity(String name, String email, String password, AccountType role,String phoneNumber) {
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Active active = Active.active;
+    public UserEntity(String name, String email, String password, AccountType role,String phoneNumber,Active active) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.accounttype = role;
         this.phoneNumber = phoneNumber;
+        this.active = active;
     }
 }
