@@ -1,8 +1,45 @@
-Nhớ chạy docker để thêm cơ sở  dữ liệu trong postgres (18)
+# Snack_Shop
 
-docker compose down -v && docker compose up -d --build
+Snack_Shop là dự án quản lý cửa hàng bán đồ ăn vặt (snack shop), phát triển hoàn toàn bằng ngôn ngữ Java.
 
-Xong vào đây để check api 
-// http://localhost:8000/swagger-ui/index.html
+## Tính năng nổi bật
 
-Phiên bản spring là 4.0 java  21 và postgres là 18x`
+- Quản lý danh mục sản phẩm/snack
+- Quản lý khách hàng
+- Tạo và quản lý đơn hàng
+- Quản lý giỏ hàng
+- Báo cáo doanh thu và thống kê (tuỳ chỉnh)
+- Hỗ trợ tìm kiếm sản phẩm
+
+## Công nghệ sử dụng
+
+- Java 100%
+- [Bạn có thể bổ sung thêm: JavaFX, Spring Boot, JDBC, v.v. nếu có]
+
+## Hướng dẫn cài đặt và chạy dự án
+
+1. **Yêu cầu:**
+   - Đã cài đặt Java (JDK 8 trở lên)
+   - IDE đề xuất: IntelliJ IDEA, Eclipse hoặc Netbeans
+
+2. **Clone repository:**
+   ```bash
+   git clone https://github.com/NATuanAN/Snack_Shop.git
+   ```
+
+3. **Mở project trong IDE Java bạn chọn**
+
+4. **Cấu hình database nếu cần**  
+   [Điền thông tin cấu hình database tại đây nếu dự án cần]
+
+5. **Chạy ứng dụng**  
+   - Chạy file Main.java hoặc khởi động theo hướng dẫn của project
+
+## Đóng góp
+
+- Nếu muốn đóng góp, vui lòng gửi pull request hoặc tạo issue để trao đổi.
+- Liên hệ: [Điền email hoặc GitHub profile của bạn]
+
+## License
+
+[Chọn license phù hợp, ví dụ: MIT, GPL,...]
